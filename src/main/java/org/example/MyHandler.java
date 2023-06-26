@@ -42,16 +42,21 @@ public class MyHandler implements HttpHandler {
 
 
     private String process( String body) throws CommandException {
-        String[] splitted = body.split(".?|/");
-        System.out.println(splitted[1]);
+        String[] splitted = body.split("\\?|/");
+        System.out.println(splitted.length + "   " + splitted[2]);
         if (splitted.length == 0)
             throw new CommandException();
 
-        String cmd = splitted[1].split("=")[0];
+        String cmd = splitted[2].split("=")[0];
 
         System.out.println(cmd);
 
-        return processCMD(cmd);
+        switch(cmd){
+            case "cmd":
+                return processCMD(splitted[2].split("=")[1]);
+            default:
+                throw new CommandException();
+        }
     }
 
     public String processCMD(String cmd) throws CommandException {
